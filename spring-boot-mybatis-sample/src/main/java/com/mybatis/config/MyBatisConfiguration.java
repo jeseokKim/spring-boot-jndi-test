@@ -62,3 +62,64 @@ public class MyBatisConfiguration {
         sessionFactoryBean.setMapperLocations(pathResolver.getResources(MAPPER_LOCATIONS_PATH));
     }
 }
+
+
+/*
+public abstract class DatabaseConfiguration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseConfiguration.class);
+
+    @Bean
+    public abstract DataSource dataSource();
+
+    protected void configureDataSource(org.apache.tomcat.jdbc.pool.DataSource dataSource, DatabaseProperties databaseProperties) {
+        LOGGER.info("### configureDataSource = {}", databaseProperties);
+        dataSource.setDriverClassName(databaseProperties.getDriverClassName());
+        dataSource.setUrl(databaseProperties.getUrl());
+        dataSource.setUsername(databaseProperties.getUsername());
+        dataSource.setPassword(databaseProperties.getPassword());
+        dataSource.setTestOnBorrow(false);
+        dataSource.setTestOnReturn(false);
+    }
+
+}
+
+@Configuration
+@EnableTransactionManagement
+@EnableConfigurationProperties(MssqlDatabaseProperties.class)
+class MssqlDatabaseConfiguration extends DatabaseConfiguration {
+
+    @Autowired
+    private MssqlDatabaseProperties mssqlDatabaseProperties;
+
+    @Primary
+    @Bean(name = "mssqlDataSource", destroyMethod = "close")
+    public DataSource dataSource() {
+        org.apache.tomcat.jdbc.pool.DataSource mssqlDataSource = new org.apache.tomcat.jdbc.pool.DataSource();
+        configureDataSource(mssqlDataSource, mssqlDatabaseProperties);
+        return mssqlDataSource;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(@Qualifier("mssqlDataSource") DataSource mssqlDataSource) {
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(mssqlDataSource);
+        transactionManager.setGlobalRollbackOnParticipationFailure(false);
+        //transactionManager.setRollbackOnCommitFailure(true);
+        return transactionManager;
+    }
+}
+
+@Configuration
+@EnableConfigurationProperties(OracleDatabaseProperties.class)
+class OracleDatabaseConfiguration extends DatabaseConfiguration {
+
+    @Autowired
+    private OracleDatabaseProperties oracleDatabaseProperties;
+
+    @Bean(name = "oracleDataSource", destroyMethod = "close")
+    public DataSource dataSource() {
+        org.apache.tomcat.jdbc.pool.DataSource oracleDataSource = new org.apache.tomcat.jdbc.pool.DataSource();
+        configureDataSource(oracleDataSource, oracleDatabaseProperties);
+        return oracleDataSource;
+    }
+}
+*/
