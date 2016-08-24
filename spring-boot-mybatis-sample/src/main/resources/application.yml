@@ -1,0 +1,19 @@
+#debug: true
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+
+multipart:
+  enabled: true
+  max-request-size: 10MB
+  file-size-threshold: 1MB
+  max-file-size: 10MB
+
+server:
+  session:
+    timeout: 600
+    persistent: false

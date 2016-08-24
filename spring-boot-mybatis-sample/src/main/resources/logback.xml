@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+jdbc.sqlonly    : Logs only SQL
+jdbc.sqltiming  : Logs the SQL, post-execution, including timing execution statistics
+jdbc.audit      : Logs ALL JDBC calls except for ResultSets
+jdbc.resultset  : all calls to ResultSet objects are logged
+jdbc.connection : Logs connection open and close events
+-->
+<!-- https://examples.javacodegeeks.com/enterprise-java/logback/logback-rollingfileappender-example/ -->
+<configuration>
+
+  <appender name="dailyRollingFileAppender"
+    class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <prudent>false</prudent>
+    <File>C:\\mybatis\\logs\\applicatoin.log</File>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>C:\\mybatis\\logs\\applicatoin.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <!-- File size
+      <fileNamePattern>D:\\logs\\applicatoin.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>10KB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+      -->
+      <!-- 로그 저장기간 -->
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%thread] %logger{35} : %msg %n</pattern>
+    </encoder>
+  </appender>
+
+
+  <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+    <encoder>
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%thread] %logger{35} : %msg %n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.springframework.web" level="INFO"/>
+  <logger name="jdbc" level="OFF"/>
+
+  <logger name="jdbc.sqlonly" level="INFO" additivity="false">
+    <appender-ref ref="dailyRollingFileAppender" />
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="jdbc.resultsettable" level="OFF" additivity="false">
+<!--     <appender-ref ref="dailyRollingFileAppender" /> -->
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+  <logger name="jdbc.sqltiming" level="OFF" additivity="false">
+<!--     <appender-ref ref="dailyRollingFileAppender" /> -->
+    <appender-ref ref="consoleAppender" />
+  </logger>
+
+
+  <root level="INFO">
+    <appender-ref ref="dailyRollingFileAppender" />
+    <appender-ref ref="consoleAppender" />
+  </root>
+</configuration>

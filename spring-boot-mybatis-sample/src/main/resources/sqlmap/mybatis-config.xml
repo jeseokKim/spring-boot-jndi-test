@@ -1,0 +1,20 @@
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="false" />
+        <setting name="useGeneratedKeys" value="true" />
+        <setting name="defaultExecutorType" value="REUSE" />
+        <setting name="aggressiveLazyLoading" value="false"/>
+
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <setting name="lazyLoadTriggerMethods" value=""/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="jdbcTypeForNull" value="NVARCHAR"/>
+    </settings>
+
+    <typeAliases>
+    </typeAliases>
+
+    <typeHandlers>
+    </typeHandlers>
+</configuration>
