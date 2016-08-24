@@ -7,6 +7,9 @@ import org.apache.catalina.startup.Tomcat;
 import org.apache.tomcat.util.descriptor.web.ContextResource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.embedded.Compression;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +45,25 @@ public class Application {
                 resource.setProperty("password", "1234");
 
                 context.getNamingResources().addResource(resource);
+            }
+        };
+    }
+
+    @Bean
+    EmbeddedServletContainerCustomizer containerCustomizer() throws Exception {
+        return (ConfigurableEmbeddedServletContainer container) -> {
+            if (container instanceof TomcatEmbeddedServletContainerFactory) {
+                TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
+                tomcat.addConnectorCustomizers(
+                    (connector) -> {
+                        connector.setMaxPostSize(-1);
+                        connector.setMaxParameterCount(-1);
+                    }
+                );
+                Compression compression = new Compression();
+                compression.setEnabled(true);
+                compression.setMinResponseSize(2048);
+                container.setCompression(compression);
             }
         };
     }
